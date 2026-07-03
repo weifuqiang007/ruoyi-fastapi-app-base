@@ -158,15 +158,15 @@
               </view>
               <view
                 class="w-[22%] flex flex-col items-center space-y-1.5 active:opacity-60"
-                @click="handleBuilding"
+                @click="handleToCalendar"
               >
                 <view
                   class="flex size-10 items-center justify-center rounded-xl bg-yellow-50 text-yellow-500 transition-colors group-active:bg-yellow-100"
                 >
-                  <view class="i-mdi-bullhorn text-xl"></view>
+                  <view class="i-mdi-calendar-clock text-xl"></view>
                 </view>
                 <text class="text-[11px] font-medium text-gray-600"
-                  >通知公告</text
+                  >日历提醒</text
                 >
               </view>
               <view
@@ -227,6 +227,10 @@ function handleToAiChat() {
 
 function handleToUserList() {
   handleBuilding();
+}
+
+function handleToCalendar() {
+  proxy.$tab.navigateTo("/pages/calendar/index");
 }
 
 function handleBuilding() {

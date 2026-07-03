@@ -14,7 +14,7 @@
       "autoclose": true,
       "delay": 0
     },
-    "modules": {},
+    "modules": { "Push": {} },
     "distribute": {
       "android": {
         "permissions": [
@@ -32,7 +32,11 @@
           "<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
           "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
           "<uses-feature android:name=\"android.hardware.camera\"/>",
-          "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
+          "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
+          "<uses-permission android:name=\"android.permission.POST_NOTIFICATIONS\"/>",
+          "<uses-permission android:name=\"android.permission.RECEIVE_BOOT_COMPLETED\"/>",
+          "<uses-permission android:name=\"android.permission.SCHEDULE_EXACT_ALARM\"/>",
+          "<uses-permission android:name=\"android.permission.USE_EXACT_ALARM\"/>"
         ]
       },
       "ios": {
@@ -58,7 +62,7 @@
   "vueVersion": "3",
   "h5": {
     "devServer": {
-      "port": 9090,
+      "port": 5188,
       "https": false
     },
     "title": "RuoYi-FastAPI-APP",

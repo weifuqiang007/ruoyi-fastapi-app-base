@@ -202,14 +202,14 @@ function loginSuccess(result) {
   useUserStore()
     .getInfo()
     .then((res) => {
-      proxy.$tab.reLaunch("/pages/index");
+      proxy.$tab.reLaunch("/pages/calendar/index");
     });
 }
 
 onLoad(() => {
   //#ifdef H5
   if (getToken()) {
-    proxy.$tab.reLaunch("/pages/index");
+    proxy.$tab.reLaunch("/pages/calendar/index");
   }
   //#endif
 });

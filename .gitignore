@@ -3,6 +3,11 @@ node_modules/
 unpackage/
 dist/
 
+# Build output (electron-builder 打包产物)
+release/
+release-win/
+release-win2/
+
 # local env files
 .env.local
 .env.*.local
@@ -11,6 +16,7 @@ dist/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+*.log
 
 # Editor directories and files
 .project

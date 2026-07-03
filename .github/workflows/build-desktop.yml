@@ -1,0 +1,46 @@
+name: Build Desktop Apps
+
+# 任意平台提交或手动触发：在 Windows/macOS runner 上分别构建安装包
+on:
+  workflow_dispatch:
+  push:
+    branches: [master, main]
+    paths:
+      - 'src/**'
+      - 'electron/**'
+      - 'package.json'
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            target: nsis portable
+            artifact: release-win/*
+          - os: macos-latest
+            target: dmg zip
+            artifact: release-mac/*
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install deps
+        run: npm install --legacy-peer-deps
+      - name: Build H5
+        run: npm run build:h5
+      - name: Package (${{ matrix.target }})
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+        run: npx electron-builder --${{ matrix.os == 'macos-latest' && 'mac' || 'win' }} ${{ matrix.target }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: desktop-${{ matrix.os }}
+          path: |
+            release-win/*.exe
+            release-mac/*.dmg
+            release-mac/*.zip

@@ -56,9 +56,10 @@
 
 <script setup>
 import { useConfigStore } from "@/store";
+import { getCurrentVersion } from "@/utils/updater";
 
 const url = useConfigStore().config.appInfo.site_url;
-const version = useConfigStore().config.appInfo.version;
+const version = getCurrentVersion();
 </script>
 
 <style>

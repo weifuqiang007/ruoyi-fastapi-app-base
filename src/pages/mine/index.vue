@@ -97,14 +97,14 @@
         </view>
         <view
           class="flex flex-1 flex-col items-center justify-center space-y-2 active:opacity-70"
-          @click="handleBuilding"
+          @click="handleSync"
         >
           <view
             class="flex size-12 items-center justify-center rounded-full bg-green-50 text-green-500"
           >
-            <view class="i-mdi-thumb-up text-2xl"></view>
+            <view class="i-mdi-sync text-2xl"></view>
           </view>
-          <text class="text-xs font-medium text-gray-600">点赞我们</text>
+          <text class="text-xs font-medium text-gray-600">数据同步</text>
         </view>
       </view>
 
@@ -112,6 +112,17 @@
       <view
         class="overflow-hidden rounded-2xl bg-white shadow-lg shadow-gray-200/50"
       >
+        <view
+          class="group flex items-center justify-between border-b border-gray-100 p-4 transition-colors active:bg-gray-50"
+          @click="handleToModules"
+        >
+          <view class="flex items-center space-x-3">
+            <view class="i-mdi-bookmark-multiple text-xl text-indigo-500"></view>
+            <text class="text-base text-gray-700">我的模板</text>
+          </view>
+          <view class="i-mdi-chevron-right text-gray-400"></view>
+        </view>
+
         <view
           class="group flex items-center justify-between border-b border-gray-100 p-4 transition-colors active:bg-gray-50"
           @click="handleToEditInfo"
@@ -163,6 +174,8 @@
 <script setup>
 import { useUserStore } from "@/store";
 import { computed, getCurrentInstance } from "vue";
+import sync from "@/utils/sync";
+import { getToken } from "@/utils/auth";
 
 const { proxy } = getCurrentInstance();
 const userStore = useUserStore();
@@ -179,12 +192,30 @@ function handleToEditInfo() {
   proxy.$tab.navigateTo("/pages/mine/info/edit");
 }
 
+function handleToModules() {
+  proxy.$tab.navigateTo("/pages/calendar/modules");
+}
+
 function handleToSetting() {
   proxy.$tab.navigateTo("/pages/mine/setting/index");
 }
 
 function handleToLogin() {
   proxy.$tab.reLaunch("/pages/login");
+}
+
+async function handleSync() {
+  if (!getToken()) {
+    proxy.$modal.msg("请先登录后再同步");
+    return;
+  }
+  try {
+    await sync.push();
+    await sync.pull();
+    proxy.$modal.msgSuccess("同步完成");
+  } catch (e) {
+    proxy.$modal.msgError("同步失败，请稍后重试");
+  }
 }
 
 function handleToAvatar() {
